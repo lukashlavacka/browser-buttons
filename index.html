@@ -1,0 +1,54 @@
+<html>
+<head>
+	<style type="text/css">
+		#uiButtonsHolder div {
+			position: fixed;
+			background-color:red;
+			height: 20px;
+			text-align: center;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+	<div id="uiButtonsHolder"></div>
+<body>
+	<script src="dist/browser-buttons.js"></script>
+	<script type="text/javascript">
+		var buttonSymbols = {
+			back: "←",
+			forward: "→",
+			reload: "↺",
+			info: "i",
+			bookmark: "☆",
+			settings: "⚙"
+		}
+		function setBackButton() {
+			var uiButtons = browserButtons.getButtons();
+			if(!uiButtons) {
+				return;
+			}
+
+			var uiButtonsHolder = document.getElementById("uiButtonsHolder");
+			for (uiButton in uiButtons) {
+				if(uiButtons.hasOwnProperty(uiButton)) {
+					var uiButtonPosition = uiButtons[uiButton].position()
+					if(!uiButtonPosition) {
+						continue;
+					}
+					var buttonDiv = document.getElementById(uiButton);
+					if(!buttonDiv) {
+						buttonDiv = document.createElement("div");
+						buttonDiv.setAttribute("id", uiButton)
+						buttonDiv.appendChild(document.createTextNode(buttonSymbols[uiButton] || uiButton))
+						uiButtonsHolder.appendChild(buttonDiv)
+					}
+					buttonDiv.setAttribute("style", uiButtonPosition)
+				}
+			}
+		}
+
+		document.body.onload = setBackButton
+		window.onresize = setBackButton
+	</script>
+</body>
+</html>
